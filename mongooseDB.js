@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/mcats')
+mongoose.connect('mongodb://localhost/threecats')
 var async = require("async")
 var data = require('./data.js').data
 
@@ -14,7 +14,6 @@ async.series([
     })
 
 function open(callback){
-    console.log("Тут")
     mongoose.connection.on("open",callback)
 }
 
