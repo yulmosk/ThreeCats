@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/threecats')
+var session = require("express-session")
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -24,6 +25,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 
+app.use(session({
+  secret: "ThreeCats",
+  cookie:{maxAge:60*1000}
+}))
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/cats', catsRouter);
@@ -41,7 +47,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error', {title:'Ошибка'});
+  res.render('error', {title:'Ошибка', menu: []});
 });
 
 module.exports = app;
