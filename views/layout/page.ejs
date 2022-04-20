@@ -25,7 +25,14 @@
             %>
           </ul>
           <ul class="navbar-nav navbar-right">
-              <a class="nav-link" href="/logreg">Войти</a>
+              <%if(user){%>
+                <form action="/logout" method="post">
+                  <li><button type="submit" class="btn btn-
+                                  link">Выйти</button></li>
+             </form>
+           <% } else { %>
+            <a class="nav-link" href="/logreg">Войти</a>
+           <% } %>
             </li>
           </ul>
         </div>
