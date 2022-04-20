@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Cat = require("../models/cat").Cat
 var async = require("async")
+var checkAuth = require("./../middleware/checkAuth.js")
+
 
 
 /* GET cats listing. */
@@ -10,7 +12,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* Страница героев */
-router.get("/:nick", function(req, res, next) {
+router.get("/:nick", checkAuth, function(req, res, next) {
     Cat.findOne({nick:req.params.nick}, function(err, cat){
         if(err) return next(err)
         if(!cat) return next(new Error("Нет такого котенка в этом мультике"))
