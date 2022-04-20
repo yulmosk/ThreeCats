@@ -12,17 +12,13 @@
         <div class="container-fluid">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="/">Главная</a>
-            </li>
-           <li class="nav-item">
-              <a class="nav-link" href="/cats/karamelka">Карамелька</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/cats/kompot">Компот</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/cats/korthik">Коржик</a>
-            </li>
+                <a class="nav-link" href="/">Главная</a>
+              </li>
+            <% menu.forEach(function(cat){ %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cats/<%=cat.nick%>"><%=cat.title%></a>
+                  </li>
+            <% }) %>
           </ul>
         </div>
       </nav>
