@@ -5,7 +5,8 @@ var Cat = require("../models/cat").Cat
 /* GET home page. */
 router.get('/', function(req, res, next) {
   Cat.find({},{_id:0,title:1,nick:1},function(err,menu){
-    res.cookie('greeting', 'Hi!!!').render('index', {
+    req.session.greeting = "Hi!!!!"
+    res.render('index', {
                             title: 'Express',
                             menu: menu
                         });
