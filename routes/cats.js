@@ -11,27 +11,15 @@ router.get('/', function(req, res, next) {
 
 /* Страница героев */
 router.get("/:nick", function(req, res, next) {
-    async.parallel([
-        function(callback){
-            Cat.findOne({nick:req.params.nick}, callback)
-        },
-        function(callback){
-            Cat.find({},{_id:0,title:1,nick:1},callback)
-        }
-    ],
-    function(err,result){
+    Cat.findOne({nick:req.params.nick}, function(err, cat){
         if(err) return next(err)
-        var cat = result[0]
-        var cats = result[1] || []
         if(!cat) return next(new Error("Нет такого котенка в этом мультике"))
             res.render('cat', {
                 title: cat.title,
                 picture: cat.avatar,
                 desc: cat.desc,
-                menu: cats
-            });
-        })
-
+            });       
+         })
 });
 
 module.exports = router;

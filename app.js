@@ -7,6 +7,7 @@ var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/threecats')
 var session = require("express-session")
 var MongoStore = require('connect-mongo');
+var Cat = require("./models/cat").Cat;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -37,6 +38,17 @@ app.use(function(req,res,next){
   next()
 })
 
+app.use(function(req,res,next){
+  res.locals.nav = []
+
+  Cat.find(null,{_id:0,title:1,nick:1},function(err,result){
+      if(err) throw err
+      res.locals.nav = result
+      console.log(res.locals.nav)
+      next()
+  })
+})
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/cats', catsRouter);
@@ -54,7 +66,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error', {title:'Ошибка', menu: []});
+  res.render('error', {title:'Ошибка'});
 });
 
 module.exports = app;
