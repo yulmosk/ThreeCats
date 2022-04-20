@@ -23,10 +23,20 @@ router.post('/logreg', function(req, res, next) {
   User.findOne({username:username},function(err,user){
     if(err) return next(err)
     if(user){
-	res.send("<h1>Пользователь найден</h1>");
+      if(user.checkPassword(password)){
+        req.session.user = user._id
+        res.redirect('/')
+      } else {
+        res.render('logreg', {title: 'Вход'})
+      }
     } else {
-	res.send("<h1>Пользователь НЕ найден</h1>")
-}
+      var user = new User({username:username,password:password})
+            user.save(function(err,user){
+                if(err) return next(err)
+                req.session.user = user._id
+                res.redirect('/')
+            })     
+    }
 })
 });
 
