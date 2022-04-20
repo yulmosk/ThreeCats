@@ -38,16 +38,7 @@ app.use(function(req,res,next){
   next()
 })
 
-app.use(function(req,res,next){
-  res.locals.nav = []
-
-  Cat.find(null,{_id:0,title:1,nick:1},function(err,result){
-      if(err) throw err
-      res.locals.nav = result
-      console.log(res.locals.nav)
-      next()
-  })
-})
+app.use(require("./middleware/createMenu.js"))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
